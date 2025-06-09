@@ -1,0 +1,88 @@
+@use 'sass:map';
+@use 'sass:math';
+
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+) !default;
+
+@mixin media-up($name) {
+  $min: map.get($breakpoints, $name);
+  @if $min != 0 {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-down($name) {
+  $max: map.get($breakpoints, $name) - 0.02;
+  @media (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin media-between($lower, $upper) {
+  $min: map.get($breakpoints, $lower);
+  $max: map.get($breakpoints, $upper) - 0.02;
+  
+  @if $min != 0 {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $max) {
+      @content;
+    }
+  }
+}
+
+@mixin media-only($name) {
+  @if $name == xs {
+    @include media-down(sm) {
+      @content;
+    }
+  } @else if $name == sm {
+    @include media-between(sm, md) {
+      @content;
+    }
+  } @else if $name == md {
+    @include media-between(md, lg) {
+      @content;
+    }
+  } @else if $name == lg {
+    @include media-between(lg, xl) {
+      @content;
+    }
+  } @else if $name == xl {
+    @include media-between(xl, xxl) {
+      @content;
+    }
+  } @else if $name == xxl {
+    @include media-up(xxl) {
+      @content;
+    }
+  }
+}
+
+@function breakpoint($name) {
+  @return map.get($breakpoints, $name);
+}
+
+@mixin responsive-property($property, $values) {
+  @each $breakpoint, $value in $values {
+    @if $breakpoint == xs {
+      #{$property}: $value;
+    } @else {
+      @include media-up($breakpoint) {
+        #{$property}: $value;
+      }
+    }
+  }
+}

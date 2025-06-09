@@ -1,0 +1,100 @@
+<div 
+  class="auto-card" 
+  [class]="'auto-card--' + type + ' auto-card--' + layout + ' auto-card--' + imageType + ' ' + customClass"
+  [class.auto-card--clickable]="clickable"
+  [class.auto-card--unavailable]="data.available === false"
+  (click)="onCardClick()">
+  
+  <!-- Image/Icon Section -->
+  <div class="auto-card__media" *ngIf="imageType !== 'none'">
+    <div class="auto-card__media-container">
+      <!-- Image -->
+      <img 
+        *ngIf="imageType === 'image' && data.imageUrl" 
+        [src]="data.imageUrl" 
+        [alt]="data.title"
+        class="auto-card__image"
+        loading="lazy">
+      
+      <!-- Icon -->
+      <div 
+        *ngIf="imageType === 'icon'" 
+        class="auto-card__icon">
+        <i [class]="data.iconName || 'fas fa-wrench'"></i>
+      </div>
+      
+      <!-- Placeholder when no image -->
+      <div 
+        *ngIf="imageType === 'image' && !data.imageUrl" 
+        class="auto-card__placeholder">
+        <i class="fas fa-image"></i>
+      </div>
+    </div>
+    
+    <!-- Badge -->
+    <div class="auto-card__badge" *ngIf="data.badge">
+      {{ data.badge }}
+
+</div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="auto-card__content">
+    <!-- Header -->
+    <div class="auto-card__header">
+      <h3 class="auto-card__title">{{ data.title }}</h3>
+      <p class="auto-card__subtitle" *ngIf="data.subtitle">{{ data.subtitle }}</p>
+    </div>
+
+    <!-- Description -->
+    <p class="auto-card__description" *ngIf="data.description">
+      {{ data.description }}
+    </p>
+
+    <!-- Rating -->
+    <div class="auto-card__rating" *ngIf="showRating && data.rating">
+      <div class="auto-card__stars">
+        <i 
+          *ngFor="let star of [].constructor(5)"
+          class="fas fa-star"
+          [class.auto-card__star--filled]="star <= (data.rating || 0)">
+        </i>
+      </div>
+      <span class="auto-card__rating-text" *ngIf="data.reviewCount">
+        ({{ data.reviewCount }} reseñas)
+      </span>
+    </div>
+
+    <!-- Tags -->
+    <div class="auto-card__tags" *ngIf="data.tags && data.tags.length > 0">
+      <span 
+        *ngFor="let tag of data.tags" 
+        class="auto-card__tag">
+        {{ tag }}
+      </span>
+    </div>
+
+    <!-- Footer -->
+    <div class="auto-card__footer">
+      <!-- Price Section -->
+      <div class="auto-card__price-section" *ngIf="showPrice && data.price">
+        <span class="auto-card__price">{{ formatPrice(data.price) }}</span>
+        <span 
+          class="auto-card__original-price" 
+          *ngIf="data.originalPrice && data.originalPrice > data.price">
+          {{ formatPrice(data.originalPrice) }}
+        </span>
+      </div>
+
+      <!-- Availability -->
+      <div class="auto-card__availability" *ngIf="data.available !== undefined">
+        <span 
+          class="auto-card__status"
+          [class.auto-card__status--available]="data.available"
+          [class.auto-card__status--unavailable]="!data.available">
+          {{ data.available ? 'Disponible' : 'No disponible' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
