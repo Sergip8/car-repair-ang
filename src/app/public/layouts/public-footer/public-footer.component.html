@@ -1,0 +1,84 @@
+<footer class="footer">
+    <div class="footer__container">
+      <!-- Sección principal del footer -->
+      <div class="footer__content">
+        
+        <!-- Información de la empresa -->
+       
+        <!-- Servicios -->
+        <div class="footer__section footer__section--services">
+          <h4 class="footer__subtitle">
+            <i class="fas fa-cogs footer__icon"></i>
+            Nuestros Servicios
+          </h4>
+          <ul class="footer__list">
+            <li *ngFor="let service of services" class="footer__list-item">
+              <i class="fas fa-chevron-right footer__list-icon"></i>
+              {{ service }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Enlaces rápidos -->
+        <div class="footer__section footer__section--links">
+          <h4 class="footer__subtitle">
+            <i class="fas fa-link footer__icon"></i>
+            Enlaces Rápidos
+          </h4>
+          <ul class="footer__list">
+            <li *ngFor="let link of quickLinks" class="footer__list-item">
+              <a [href]="link.url" class="footer__link">
+                <i class="fas fa-chevron-right footer__list-icon"></i>
+                {{ link.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Información de contacto -->
+        <div class="footer__section footer__section--contact">
+          <h4 class="footer__subtitle">
+            <i class="fas fa-phone footer__icon"></i>
+            Contáctanos
+          </h4>
+          <div class="footer__contact">
+            <div class="footer__contact-item">
+              <i class="fas fa-phone-alt footer__contact-icon"></i>
+              <span>{{ contactInfo.phone }}</span>
+            </div>
+            <div class="footer__contact-item">
+              <i class="fas fa-envelope footer__contact-icon"></i>
+              <span>{{ contactInfo.email }}</span>
+            </div>
+            <div class="footer__contact-item">
+              <i class="fas fa-map-marker-alt footer__contact-icon"></i>
+              <span>{{ contactInfo.address }}</span>
+            </div>
+          </div>
+          
+          <!-- Horarios -->
+       
+        </div>
+        <div class="footer__section footer__section--map">
+            <app-map class="footer__map" [markers]="markers"></app-map>
+        </div>
+      </div>
+  
+      <!-- Línea divisoria -->
+      <div class="footer__divider"></div>
+  
+      <!-- Copyright -->
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          <p>
+            &copy; {{ currentYear }} AutoReparaciones Pro. Todos los derechos reservados.
+          </p>
+        </div>
+        <div class="footer__legal">
+          <a href="/privacidad" class="footer__legal-link">Política de Privacidad</a>
+          <span class="footer__legal-separator">|</span>
+          <a href="/terminos" class="footer__legal-link">Términos y Condiciones</a>
+        </div>
+      </div>
+    </div>
+  </footer>

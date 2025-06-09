@@ -1,0 +1,115 @@
+<header class="header">
+  <!-- Canvas de fondo con carros animados (solo se renderiza en el navegador) -->
+  <canvas #backgroundCanvas class="header__canvas" *ngIf="isBrowser"></canvas>
+  
+  <div class="header__container">
+    <!-- Logo y nombre de la empresa -->
+    <div class="header__brand">
+      <div class="header__logo">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" fill="var(--color-primary)" stroke="var(--color-white)" stroke-width="2"/>
+          <path d="M12 20h16M20 12v16" stroke="var(--color-white)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="header__company">
+        <h1 class="header__title">AutoRepair Pro</h1>
+        <span class="header__subtitle">Servicio de Confianza</span>
+      </div>
+    </div>
+
+    <!-- Navegación principal -->
+    <nav class="header__nav" [class.header__nav--open]="isMenuOpen">
+      <ul class="header__menu">
+        <li class="header__menu-item">
+          <a href="#inicio" class="header__link" (click)="closeMenu()">Inicio</a>
+        </li>
+        
+        <!-- Servicios con submenú -->
+        <li class="header__menu-item header__menu-item--has-submenu" 
+            ((mouseover))="showSubmenu('servicios')" 
+            (mouseleave)="hideSubmenu('servicios')"
+            [class.header__menu-item--active]="activeSubmenu === 'servicios'">
+          <a href="#servicios" class="header__link header__link--with-arrow" (click)="toggleSubmenu('servicios', $event)">
+            Servicios
+            <svg class="header__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <ul class="header__submenu" [class.header__submenu--visible]="activeSubmenu === 'servicios'">
+            <li class="header__submenu-item">
+              <a href="#mantenimiento" class="header__submenu-link" (click)="closeMenu()">Mantenimiento Preventivo</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#reparaciones" class="header__submenu-link" (click)="closeMenu()">Reparaciones Generales</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#diagnostico" class="header__submenu-link" (click)="closeMenu()">Diagnóstico Computarizado</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#frenos" class="header__submenu-link" (click)="closeMenu()">Sistema de Frenos</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#suspension" class="header__submenu-link" (click)="closeMenu()">Suspensión y Dirección</a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Nosotros con submenú -->
+        <li class="header__menu-item header__menu-item--has-submenu" 
+            (mouseover)="showSubmenu('nosotros')" 
+            (mouseleave)="hideSubmenu('nosotros')"
+            [class.header__menu-item--active]="activeSubmenu === 'nosotros'">
+          <a href="#nosotros" class="header__link header__link--with-arrow" (click)="toggleSubmenu('nosotros', $event)">
+            Nosotros
+            <svg class="header__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <ul class="header__submenu" [class.header__submenu--visible]="activeSubmenu === 'nosotros'">
+            <li class="header__submenu-item">
+              <a href="#historia" class="header__submenu-link" (click)="closeMenu()">Nuestra Historia</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#equipo" class="header__submenu-link" (click)="closeMenu()">Nuestro Equipo</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#certificaciones" class="header__submenu-link" (click)="closeMenu()">Certificaciones</a>
+            </li>
+            <li class="header__submenu-item">
+              <a href="#testimonios" class="header__submenu-link" (click)="closeMenu()">Testimonios</a>
+            </li>
+          </ul>
+        </li>
+        
+        <li class="header__menu-item">
+          <a href="#contacto" class="header__link" (click)="closeMenu()">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Información de contacto -->
+    <div class="header__contact">
+      <div class="header__contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10Z" stroke="currentColor" stroke-width="2"/>
+          <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>+57 300 123 4567</span>
+      </div>
+      <div class="header__contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="m21 2-9 9-4-4-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Lun - Sáb: 8AM - 6PM</span>
+      </div>
+    </div>
+
+    <!-- Botón de menú móvil -->
+    <button class="header__menu-toggle" (click)="toggleMenu()" [class.header__menu-toggle--active]="isMenuOpen">
+      <span class="header__hamburger"></span>
+      <span class="header__hamburger"></span>
+      <span class="header__hamburger"></span>
+    </button>
+  </div>
+</header>

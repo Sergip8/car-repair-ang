@@ -1,0 +1,35 @@
+@use '../../../../styles/breakpoins' as *;
+
+.cards-container-brand{
+  
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 100%;
+    gap: 1rem;
+
+    @include media-up(sm) {
+        max-width: 100%;
+        grid-template-columns: repeat(1, 1fr);
+      }
+      
+      @include media-up(md) {
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      @include media-up(lg) {
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      @include media-up(xl) {
+        width: 100%;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      
+      @include media-up(xxl) {
+        width: 100%;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      
+  }

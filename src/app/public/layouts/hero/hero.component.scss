@@ -1,0 +1,538 @@
+@use '../../../../styles/breakpoins' as *;
+
+$hero-min-height: 20vh;
+$hero-padding: 2rem;
+$border-radius: 12px;
+$box-shadow: 0 4px 20px rgba(0, 18, 68, 0.1);
+$transition: all 0.3s ease;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-base {
+  border-radius: $border-radius;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+// ========================================
+// ESTILOS PRINCIPALES DEL HERO
+// ========================================
+
+.hero {
+  background-image: url('/assets/homeImg/hero-bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-white);
+
+  // Padding responsivo
+  @include responsive-property(padding, (
+    xs: 1rem,
+    sm: 1.5rem,
+    md: 2rem,
+    lg: 2.5rem,
+    xl: 3rem
+  ));
+
+  // Altura mínima responsiva
+
+  
+    max-width: 100%;
+  
+    height: 100%;
+    @include flex-center;
+    
+    // Contenedor con max-width por breakpoint
+    @include media-up(sm) {
+      max-width: 540px;
+    }
+    
+    @include media-up(md) {
+      max-width: 720px;
+    }
+    
+    @include media-up(lg) {
+      max-width: 960px;
+    }
+    
+    @include media-up(xl) {
+      max-width: 1140px;
+    }
+    
+    @include media-up(xxl) {
+      max-width: 100%;
+    }
+  
+
+  &-content {
+    display: grid;
+    align-items: center;
+    width: 100%;
+    
+    // Grid responsivo
+    grid-template-columns: 1fr;
+    @include responsive-property(gap, (
+      xs: 2rem,
+      sm: 2.5rem,
+      md: 3rem,
+      lg: 4rem
+    ));
+    
+    @include media-up(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    @include media-up(lg) {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+    
+    // Centrado en móviles
+    @include media-down(md) {
+      text-align: center;
+    }
+  }
+
+  // Decoración de fondo responsiva
+  &-bg-decoration {
+    position: absolute;
+    background: radial-gradient(circle, rgba(210, 180, 140, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    
+    // Posición y tamaño responsivo
+    @include media-down(sm) {
+      top: -30%;
+      right: -40%;
+      width: 80%;
+      height: 80%;
+    }
+    
+    @include media-between(sm, md) {
+      top: -40%;
+      right: -30%;
+      width: 70%;
+      height: 100%;
+    }
+    
+    @include media-up(md) {
+      top: -50%;
+      right: -20%;
+      width: 60%;
+      height: 120%;
+    }
+  }
+
+  &-container {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+// ========================================
+// CONTENIDO DE TEXTO
+// ========================================
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: $border-radius;
+  
+  // Gap y padding responsivos
+  @include responsive-property(gap, (
+    xs: 1rem,
+    sm: 1.25rem,
+    md: 1.5rem,
+    lg: 1.75rem
+  ));
+  
+  @include responsive-property(padding, (
+    xs: 1rem,
+    sm: 1.25rem,
+    md: 1.5rem,
+    lg: 2rem
+  ));
+}
+
+.hero-title {
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  
+  // Tamaño de fuente responsivo
+  @include responsive-property(font-size, (
+    xs: 2rem,
+    sm: 2.5rem,
+    md: 3rem,
+    lg: 3.5rem,
+    xl: 4rem
+  ));
+  
+  .hero-subtitle {
+    display: block;
+    color: var(--color-light-gray);
+    font-weight: 400;
+    margin-top: 0.5rem;
+    
+    // Tamaño responsivo del subtítulo
+    @include responsive-property(font-size, (
+      xs: 1.2rem,
+      sm: 1.4rem,
+      md: 1.6rem,
+      lg: 1.8rem,
+      xl: 2rem
+    ));
+  }
+}
+
+.hero-description {
+  line-height: 1.6;
+  color: var(--color-light-gray);
+  margin: 0;
+  
+  // Tamaño de fuente y max-width responsivos
+  @include responsive-property(font-size, (
+    xs: 1rem,
+    sm: 1.05rem,
+    md: 1.1rem,
+    lg: 1.15rem
+  ));
+  
+  @include responsive-property(max-width, (
+    xs: 100%,
+    sm: 100%,
+    md: 500px,
+    lg: 550px
+  ));
+}
+
+// ========================================
+// BOTONES DE ACCIÓN
+// ========================================
+
+.hero-actions {
+  display: flex;
+  margin-top: 1rem;
+  
+  // Gap y dirección responsivos
+  @include responsive-property(gap, (
+    xs: 0.75rem,
+    sm: 1rem,
+    md: 1.25rem
+  ));
+  
+  @include media-down(sm) {
+    flex-direction: column;
+  }
+  
+  @include media-between(sm, md) {
+    flex-wrap: wrap;
+  }
+}
+
+.btn {
+  @include button-base;
+  
+  // Padding y font-size responsivos
+  @include responsive-property(padding, (
+    xs: 0.75rem 1.25rem,
+    sm: 0.875rem 1.5rem,
+    md: 1rem 2rem,
+    lg: 1.125rem 2.25rem
+  ));
+  
+  @include responsive-property(font-size, (
+    xs: 0.9rem,
+    sm: 0.95rem,
+    md: 1rem,
+    lg: 1.05rem
+  ));
+
+  &-primary {
+    background: var(--color-secondary);
+    color: var(--color-primary);
+    
+    &:hover {
+      background: lighten(#d2b48c, 10%);
+      transform: translateY(-2px);
+      box-shadow: $box-shadow;
+    }
+  }
+
+  &-secondary {
+    background: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-accent);
+    
+    &:hover {
+      background: var(--color-accent);
+      color: var(--color-white);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ========================================
+// CARACTERÍSTICAS DESTACADAS
+// ========================================
+
+.hero-features {
+  display: flex;
+  flex-direction: column;
+  
+  // Gap y margin responsivos
+  @include responsive-property(gap, (
+    xs: 0.75rem,
+    sm: 1rem,
+    md: 1.25rem
+  ));
+  
+  @include responsive-property(margin-top, (
+    xs: 1.5rem,
+    sm: 1.75rem,
+    md: 2rem
+  ));
+  
+  @include media-down(md) {
+    align-items: center;
+  }
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  color: var(--color-light-gray);
+  
+  // Gap y font-size responsivos
+  @include responsive-property(gap, (
+    xs: 0.5rem,
+    sm: 0.625rem,
+    md: 0.75rem
+  ));
+  
+  @include responsive-property(font-size, (
+    xs: 0.85rem,
+    sm: 0.9rem,
+    md: 0.95rem
+  ));
+
+  i {
+    color: var(--color-secondary);
+    width: 20px;
+    text-align: center;
+    
+    @include responsive-property(font-size, (
+      xs: 1rem,
+      sm: 1.05rem,
+      md: 1.1rem
+    ));
+  }
+}
+
+// ========================================
+// ÁREA VISUAL
+// ========================================
+
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  @include responsive-property(gap, (
+    xs: 1.5rem,
+    sm: 1.75rem,
+    md: 2rem
+  ));
+}
+
+.hero-image-placeholder {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: $border-radius;
+  @include flex-center;
+  flex-direction: column;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  
+  // Dimensiones responsivas
+  @include responsive-property(width, (
+    xs: 100%,
+    sm: 320px,
+    md: 350px,
+    lg: 400px
+  ));
+  
+  @include responsive-property(height, (
+    xs: 200px,
+    sm: 240px,
+    md: 270px,
+    lg: 300px
+  ));
+  
+  // Gap responsivo
+  @include responsive-property(gap, (
+    xs: 0.75rem,
+    sm: 1rem
+  ));
+  
+  i {
+    color: var(--color-secondary);
+    
+    @include responsive-property(font-size, (
+      xs: 3rem,
+      sm: 3.5rem,
+      md: 4rem
+    ));
+  }
+  
+  span {
+    color: var(--color-light-gray);
+    
+    @include responsive-property(font-size, (
+      xs: 1rem,
+      sm: 1.05rem,
+      md: 1.1rem
+    ));
+  }
+}
+
+// ========================================
+// TARJETA DE CONTACTO
+// ========================================
+
+.contact-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: $border-radius;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  
+  // Padding y max-width responsivos
+  @include responsive-property(padding, (
+    xs: 1.25rem,
+    sm: 1.375rem,
+    md: 1.5rem
+  ));
+  
+  @include responsive-property(max-width, (
+    xs: 100%,
+    sm: 280px,
+    md: 300px,
+    lg: 320px
+  ));
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: var(--color-secondary);
+    text-align: center;
+    
+    @include responsive-property(font-size, (
+      xs: 1.1rem,
+      sm: 1.15rem,
+      md: 1.2rem
+    ));
+  }
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  
+  @include responsive-property(gap, (
+    xs: 0.625rem,
+    sm: 0.75rem
+  ));
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  color: var(--color-light-gray);
+  
+  // Gap y font-size responsivos
+  @include responsive-property(gap, (
+    xs: 0.625rem,
+    sm: 0.75rem
+  ));
+  
+  @include responsive-property(font-size, (
+    xs: 0.85rem,
+    sm: 0.9rem
+  ));
+
+  i {
+    color: var(--color-secondary);
+    width: 16px;
+    text-align: center;
+    
+    @include responsive-property(font-size, (
+      xs: 0.95rem,
+      sm: 1rem
+    ));
+  }
+}
+
+// ========================================
+// ICONOS (usando pseudo-elementos como fallback)
+// ========================================
+
+.icon-phone::before { content: "📞"; }
+.icon-wrench::before { content: "🔧"; }
+.icon-check::before { content: "✓"; }
+.icon-clock::before { content: "🕒"; }
+.icon-tools::before { content: "🛠️"; }
+.icon-car::before { content: "🚗"; }
+.icon-location::before { content: "📍"; }
+
+// ========================================
+// AJUSTES ESPECIALES PARA PANTALLAS MUY PEQUEÑAS
+// ========================================
+
+@include media-down(sm) {
+  .hero {
+    &-content {
+      padding: 0 0.5rem;
+    }
+  }
+  
+  .hero-actions {
+    width: 100%;
+    
+    .btn {
+      flex: 1;
+      justify-content: center;
+      min-height: 44px; // Para mejor accesibilidad táctil
+    }
+  }
+}
+
+// ========================================
+// OPTIMIZACIONES PARA PANTALLAS GRANDES
+// ========================================
+
+@include media-up(xl) {
+  .hero {
+    &-content {
+      grid-template-columns: 1.3fr 0.7fr;
+    }
+  }
+  
+  .hero-text {
+    padding: 2.5rem;
+  }
+  
+  .contact-card {
+    max-width: 350px;
+  }
+}

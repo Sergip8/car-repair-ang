@@ -1,0 +1,15 @@
+
+<div class="cards-container">
+    <app-card 
+        *ngFor="let c of cardData; index as i"
+      type="servicio"
+      [layout]= "i != 4 ? 'vertical' : 'horizontal'"
+      imageType="image"
+      [showPrice]="true"
+      [showRating]="true"
+      [data]="c"
+      [ngClass]="{ 'vertical': i != 2, 'horizontal': i === 4 }"
+      >
+    </app-card>
+
+</div>

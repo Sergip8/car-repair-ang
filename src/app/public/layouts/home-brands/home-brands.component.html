@@ -1,0 +1,16 @@
+
+
+<div class="cards-container-brand">
+    <app-card 
+        *ngFor="let m of marcas; index as i"
+      type="marca"
+      layout= 'vertical'
+      imageType="image"
+      [showPrice]="true"
+      [showRating]="true"
+      [data]="m"
+      
+      >
+    </app-card>
+
+</div>

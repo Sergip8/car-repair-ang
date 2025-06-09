@@ -1,0 +1,41 @@
+@use '../../../../styles/breakpoins' as bp;
+
+.cards-container {
+    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 1rem;
+  
+    // tamaño de las tarjetas
+    .vertical {
+      grid-column: span 1;
+    }
+  
+    .horizontal {
+      grid-column: span 4;
+    }
+  
+    // opcional: adaptabilidad en móviles
+    @include bp.media-down(md) {
+      grid-template-columns: 1fr;
+        width: 100%;
+      .vertical,
+      .horizontal {
+        grid-column: span 1;
+      }
+    }
+    @include bp.media-down(lg) {
+        grid-template-columns: 2fr;
+          width: 100%;
+        .vertical
+        {
+          grid-column: span 1;
+        }
+        .horizontal
+        {
+          grid-column: span 2;
+        }
+      
+      }
+  }
