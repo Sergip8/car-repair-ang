@@ -5,12 +5,12 @@
   title="Marcas"
   subtitle="Expertos en reparación automotriz">
 </app-home-title>
-    <app-home-brands></app-home-brands>
+    <app-home-brands *ngIf="homeBrands && homeBrands.length > 0" [marcas]="homeBrands" ></app-home-brands>
     <app-home-title 
   title="Nuestros Servicios"
   subtitle="Expertos en reparación automotriz">
 </app-home-title>
-    <app-home-categories></app-home-categories>
+    <app-home-categories *ngIf="homeServices && homeServices.length > 0" [cardData]="homeServices"></app-home-categories>
     
     
 </div>

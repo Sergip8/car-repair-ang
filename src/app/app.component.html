@@ -1,4 +1,19 @@
 
 <main class="flex-grow">
   <router-outlet></router-outlet> 
+   <div class="alert-container" 
+         [class.alert-container--has-alerts]="alerts.length > 0">
+      <app-alert
+        *ngFor="let alert of alerts; trackBy: trackByAlertId"
+        [type]="alert.type"
+        [title]="alert.title || ''"
+        [message]="alert.message"
+        [dismissible]="alert.dismissible ?? true"
+        [autoClose]="alert.autoClose ?? false"
+        [autoCloseTime]="alert.autoCloseTime ?? 5000"
+        [showIcon]="alert.showIcon ?? true"
+        (onClose)="onAlertClose(alert.id!)"
+        class="alert-container__item">
+      </app-alert>
+    </div>
 </main>

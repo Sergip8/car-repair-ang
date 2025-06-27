@@ -1,0 +1,122 @@
+ <div class="table-container">
+      <div class="table-header" *ngIf="title">
+        <h3 class="table-title">{{ title }}</h3>
+        <div class="table-actions" *ngIf="globalActions.length > 0">
+          <button 
+            *ngFor="let action of globalActions"
+            class="btn btn-primary"
+            (click)="action.callback(null)"
+          >
+            <i *ngIf="action.icon" [class]="action.icon"></i>
+            {{ action.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="generic-table">
+          <thead>
+            <tr>
+              <th 
+                *ngFor="let column of columns" 
+                [class.sortable]="column.sortable"
+                [style.width]="column.width"
+                [style.text-align]="column.align || 'left'"
+                (click)="column.sortable ? onSort(column.key) : null"
+              >
+                {{ column.label }}
+                <span 
+                  *ngIf="column.sortable" 
+                  class="sort-indicator"
+                  [class.active]="sortColumn === column.key"
+                >
+                  <i [class]="getSortIcon(column.key)"></i>
+                </span>
+              </th>
+              <th *ngIf="rowActions.length > 0" class="actions-column">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; trackBy: trackByFn; index as i" 
+                [class.even]="i % 2 === 0"
+                [class.odd]="i % 2 === 1">
+              <td 
+                *ngFor="let column of columns"
+                [style.text-align]="column.align || 'left'"
+                [class.image-cell]="column.type === 'image'"
+              >
+                <ng-container [ngSwitch]="column.type">
+                  <!-- Imagen con miniatura -->
+                  <div *ngSwitchCase="'image'" class="image-container">
+                    <img 
+                      [src]="getImageSrc(item[column.key])" 
+                      [alt]="column.label"
+                      class="table-image"
+                      (error)="onImageError($event)"
+                      (click)="onImageClick(item[column.key])"
+                    />
+                  </div>
+                  
+                  <!-- Booleano -->
+                  <span *ngSwitchCase="'boolean'" class="boolean-indicator">
+                    <i [class]="item[column.key] ? 'fas fa-check-circle success' : 'fas fa-times-circle error'"></i>
+                  </span>
+                  
+                  <!-- Número -->
+                  <span *ngSwitchCase="'number'" class="number-value">
+                    {{ formatNumber(item[column.key]) }}
+                  </span>
+                  
+                  <!-- Fecha -->
+                  <span *ngSwitchCase="'date'" class="date-value">
+                    {{ formatDate(item[column.key]) }}
+                  </span>
+                  
+                  <!-- Texto por defecto -->
+                  <span *ngSwitchDefault class="text-value">
+                    {{ item[column.key] }}
+                  </span>
+                </ng-container>
+              </td>
+              
+              <td *ngIf="rowActions.length > 0" class="actions-cell">
+                <div class="action-buttons">
+                  <button 
+                    *ngFor="let action of rowActions"
+                    class="btn btn-sm"
+                    [class]="'btn-' + (action.color || 'secondary')"
+                    (click)="action.callback(item)"
+                    [title]="action.label"
+                  >
+                    <i *ngIf="action.icon" [class]="action.icon"></i>
+                    <span *ngIf="!action.icon">{{ action.label }}</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <tr *ngIf="data.length === 0" class="empty-row">
+              <td [attr.colspan]="columns.length + (rowActions.length > 0 ? 1 : 0)" class="empty-message">
+                {{ emptyMessage || 'No hay datos para mostrar' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination-container" *ngIf="pagination && pagination.count > 0">
+      <app-pagination 
+        [pageData]="pagination"
+        (pageChange)="goToPage($event)"
+      ></app-pagination>
+      </div>
+    </div>
+
+    <!-- Modal para imagen ampliada -->
+    <div class="image-modal" *ngIf="selectedImage" (click)="closeImageModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeImageModal()">&times;</button>
+        <img [src]="selectedImage" alt="Imagen ampliada" class="modal-image">
+      </div>
+    </div>

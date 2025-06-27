@@ -19,6 +19,11 @@ $transition-fast: 0.2s ease-in-out;
 $transition-normal: 0.3s ease-in-out;
 $transition-slow: 0.5s ease-in-out;
 
+$button-padding: 0.75rem 1.5rem;
+$border-radius: 8px;
+$transition-speed: 0.3s;
+$base-font-size: 1rem; // 16px
+
 // ===== ESTILOS DEL HEADER =====
 .header {
   background: linear-gradient(
@@ -216,6 +221,7 @@ $transition-slow: 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: $spacing-xs;
+   
 
     @include media-down(lg) {
       display: none;
@@ -229,6 +235,7 @@ $transition-slow: 0.5s ease-in-out;
     color: $white-color;
     font-size: 0.875rem;
     font-weight: 500;
+     min-width: 200px;
 
     svg {
       color: $secondary-color;
@@ -385,6 +392,56 @@ $transition-slow: 0.5s ease-in-out;
   /* Ajustar espaciado en móvil */
   .header__menu-item--has-submenu {
     margin-bottom: 0.5rem;
+  }
+}
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem; // Espacio entre los botones
+}
+
+// Estilo base para todos los botones
+.btn {
+  display: inline-block;
+  padding: $button-padding;
+  border-radius: $border-radius;
+  font-size: $base-font-size;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent; // Borde transparente para evitar saltos en hover
+  transition: all $transition-speed ease-in-out;
+}
+
+// Botón de Login (Estilo secundario/outline)
+.btn-login {
+  background-color: transparent;
+  border-color: $primary-color;
+  color: $primary-color;
+
+  // Efecto al pasar el mouse
+  &:hover {
+    background-color: $primary-color;
+    color: $white-color;
+    transform: translateY(-2px); // Ligero efecto de elevación
+    box-shadow: 0 4px 10px rgba($primary-color, 0.2);
+  }
+}
+
+// Botón de Registro (Estilo primario/sólido)
+.btn-register {
+  background-color: $secondary-color;
+  color: $primary-color;
+  border-color: $secondary-color;
+
+  // Efecto al pasar el mouse
+  &:hover {
+    // Usamos la función de SCSS para oscurecer el color
+    background-color: rgba($secondary-color, 0.2);
+    border-color: rgba($secondary-color, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($dark-color, 0.15);
   }
 }
 

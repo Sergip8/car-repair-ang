@@ -1,0 +1,201 @@
+
+<div class="contact-container">
+    <!-- Header Section -->
+    <div class="contact-header">
+      <div class="container">
+        <h1 class="header-title">Contacto</h1>
+        <p class="header-subtitle">¿Necesitas reparar tu vehículo? Contáctanos y te ayudaremos</p>
+      </div>
+    </div>
+  
+    <div class="container">
+      <div class="contact-content">
+        <!-- Contact Form -->
+        <div class="contact-form-section">
+          <div class="form-header">
+            <h2>Solicitar Cotización</h2>
+            <p>Completa el formulario y nos pondremos en contacto contigo</p>
+          </div>
+  
+          <!-- Success Message -->
+          <div class="success-message" *ngIf="submitSuccess">
+            <div class="success-content">
+              <i class="success-icon">✓</i>
+              <h3>¡Mensaje enviado exitosamente!</h3>
+              <p>Te contactaremos pronto para ayudarte con la reparación de tu vehículo.</p>
+            </div>
+          </div>
+  
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+            <!-- Personal Information -->
+            <div class="form-section">
+              <h3 class="section-title">Información Personal</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Nombre Completo *</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    formControlName="name"
+                    [class.error]="getFieldError('name')"
+                    placeholder="Ingresa tu nombre completo">
+                  <span class="error-message" *ngIf="getFieldError('name')">
+                    {{ getFieldError('name') }}
+                  </span>
+                </div>
+                
+                <div class="form-group">
+                  <label for="phone">Teléfono *</label>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    formControlName="phone"
+                    [class.error]="getFieldError('phone')"
+                    placeholder="Ej: +57 300 123 4567">
+                  <span class="error-message" *ngIf="getFieldError('phone')">
+                    {{ getFieldError('phone') }}
+                  </span>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label for="email">Correo Electrónico *</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  [class.error]="getFieldError('email')"
+                  placeholder="ejemplo@correo.com">
+                <span class="error-message" *ngIf="getFieldError('email')">
+                  {{ getFieldError('email') }}
+                </span>
+              </div>
+            </div>
+  
+            <!-- Vehicle Information -->
+            <div class="form-section">
+              <h3 class="section-title">Información del Vehículo</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="vehicle">Marca y Modelo *</label>
+                  <input 
+                    type="text" 
+                    id="vehicle" 
+                    formControlName="vehicle"
+                    [class.error]="getFieldError('vehicle')"
+                    placeholder="Ej: Toyota Corolla 2020">
+                  <span class="error-message" *ngIf="getFieldError('vehicle')">
+                    {{ getFieldError('vehicle') }}
+                  </span>
+                </div>
+                
+                <div class="form-group">
+                  <label for="service">Tipo de Servicio *</label>
+                  <select 
+                    id="service" 
+                    formControlName="service"
+                    [class.error]="getFieldError('service')">
+                    <option value="">Selecciona un servicio</option>
+                    <option value="mantenimiento">Mantenimiento Preventivo</option>
+                    <option value="motor">Reparación de Motor</option>
+                    <option value="frenos">Sistema de Frenos</option>
+                    <option value="suspension">Suspensión</option>
+                    <option value="electrico">Sistema Eléctrico</option>
+                    <option value="aire">Aire Acondicionado</option>
+                    <option value="transmision">Transmisión</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                  <span class="error-message" *ngIf="getFieldError('service')">
+                    {{ getFieldError('service') }}
+                  </span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Message -->
+            <div class="form-section">
+              <div class="form-group">
+                <label for="message">Describe el Problema *</label>
+                <textarea 
+                  id="message" 
+                  formControlName="message"
+                  [class.error]="getFieldError('message')"
+                  rows="4"
+                  placeholder="Describe los síntomas o problemas que presenta tu vehículo..."></textarea>
+                <span class="error-message" *ngIf="getFieldError('message')">
+                  {{ getFieldError('message') }}
+                </span>
+              </div>
+            </div>
+  
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="submit-btn"
+                [disabled]="isSubmitting">
+                <span *ngIf="!isSubmitting">Enviar Solicitud</span>
+                <span *ngIf="isSubmitting" class="loading">
+                  <span class="spinner"></span>
+                  Enviando...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Contact Information -->
+        <div class="contact-info-section">
+          <div class="info-card">
+            <h3>Información de Contacto</h3>
+            
+            <div class="info-item">
+              <div class="info-icon">📍</div>
+              <div class="info-content">
+                <h4>Dirección</h4>
+                <p>Calle 123 #45-67<br>Bogotá, Colombia</p>
+              </div>
+            </div>
+  
+            <div class="info-item">
+              <div class="info-icon">📞</div>
+              <div class="info-content">
+                <h4>Teléfono</h4>
+                <p>+57 (1) 234-5678<br>+57 300 123 4567</p>
+              </div>
+            </div>
+  
+            <div class="info-item">
+              <div class="info-icon">✉️</div>
+              <div class="info-content">
+                <h4>Email</h4>
+                <p>inforeparacionautos.com<br>serviciosreparacionautos.com</p>
+              </div>
+            </div>
+  
+            <div class="info-item">
+              <div class="info-icon">🕒</div>
+              <div class="info-content">
+                <h4>Horarios</h4>
+                <p>Lun - Vie: 8:00 AM - 6:00 PM<br>Sábado: 8:00 AM - 2:00 PM</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="services-card">
+            <h3>Nuestros Servicios</h3>
+            <ul class="services-list">
+              <li>Mantenimiento Preventivo</li>
+              <li>Diagnóstico Computarizado</li>
+              <li>Reparación de Motor</li>
+              <li>Sistema de Frenos</li>
+              <li>Suspensión y Dirección</li>
+              <li>Sistema Eléctrico</li>
+              <li>Aire Acondicionado</li>
+              <li>Transmisión</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

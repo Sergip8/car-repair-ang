@@ -7,7 +7,12 @@
     --color-white: #ffffff;          // Blanco
     --color-light-gray: #f8f9fa;    // Gris claro
     --color-dark: #1f2937;          // Gris oscuro para texto
-    --color-accent: #3b82f6;                    
+    --color-accent: #3b82f6;  
+    --color-error: #ef4444;       // Rojo para errores
+    --color-success: #10b981;    
+    --color-warning: #d97706;
+    --color-border: #e5e7eb;
+    --color-shadow: rgba(0, 18, 68, 0.1);                
     --border-radius: 12px;
     --box-shadow: 0 4px 20px rgba(0, 18, 68, 0.1);
     --transition: all 0.3s ease;

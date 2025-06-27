@@ -1,5 +1,8 @@
 import { isPlatformBrowser, NgIf} from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../_core/services/auth.service';
+import { User } from '../../../models/auth';
 
 
 interface Car {
@@ -14,7 +17,7 @@ interface Car {
 
 @Component({
   selector: 'app-public-header',
-  imports: [NgIf],
+  imports: [NgIf, RouterLink],
   templateUrl: './public-header.component.html',
   styleUrl: './public-header.component.scss'
 })
@@ -28,9 +31,13 @@ export class PublicHeaderComponent  implements OnInit, OnDestroy, AfterViewInit 
   private animationId!: number;
   private resizeTimeout!: any;
   public isBrowser: boolean;
+  public user: User | null = null;
   activeSubmenu: string | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, public authService: AuthService) {
+    this.authService.currentUser$.subscribe(user => {
+      this.user = user;
+    });
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
   toggleMenu(): void {
@@ -83,6 +90,7 @@ export class PublicHeaderComponent  implements OnInit, OnDestroy, AfterViewInit 
   ngOnInit() {
     // Solo inicializar animaciones en el navegador
     if (this.isBrowser) {
+      console.log(this.user)
       // Usar setTimeout para asegurar que el DOM esté listo
       setTimeout(() => {
         this.initCanvas();

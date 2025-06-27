@@ -4,7 +4,7 @@ import { HomeTitleComponent } from "../../components/home-title/home-title.compo
 
 @Component({
   selector: 'app-why-choose-us',
-  imports: [NgFor, HomeTitleComponent],
+  imports: [HomeTitleComponent],
   templateUrl: './why-choose-us.component.html',
   styleUrls: ['./why-choose-us.component.scss']
 })

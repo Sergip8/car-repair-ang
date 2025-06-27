@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CardComponent } from "../../components/card/card.component";
+import { Component, Input } from '@angular/core';
+import { CardComponent, CardData } from "../../components/card/card.component";
 import { NgFor } from '@angular/common';
 
 @Component({
@@ -9,7 +9,7 @@ import { NgFor } from '@angular/common';
   styleUrl: './home-brands.component.scss'
 })
 export class HomeBrandsComponent {
-  marcas = [
+  @Input() marcas: CardData[] = [
     {
       title: 'Toyota',
       imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Toyota.svg',

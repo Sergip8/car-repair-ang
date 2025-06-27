@@ -1,0 +1,16 @@
+<div class="container">
+    <app-table *ngIf="tableData " (pageChange)="pageChange($event)" [pagination]="paginationData" [columns]="vehicleTableColumns" [data]="tableData"></app-table>
+    <div class="home-vehicles">
+        <app-upload-image
+         
+          [multiple]="true"
+          (filesSelected)="onFilesSelected($event)"
+          (uploadProgress)="onUploadProgress($event)"
+          (uploadComplete)="onUploadComplete($event)"
+          (uploadError)="onUploadError($event)"
+        ></app-upload-image>
+        <app-form [config]="vehicleSchema" (formSubmit)="onFormSubmit($event)"></app-form>
+    
+    </div>
+
+</div>

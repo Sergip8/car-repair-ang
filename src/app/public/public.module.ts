@@ -12,8 +12,22 @@ import { HomeBrandsComponent } from "./layouts/home-brands/home-brands.component
 import { WhyChooseUsComponent } from "./layouts/why-choose-us/why-choose-us.component";
 import { HomeTitleComponent } from "./components/home-title/home-title.component";
 import { HomeFAQComponent } from "./layouts/home-faq/home-faq.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { HomeServicesComponent } from "./pages/home-services/home-services.component";
+import { HomeContactComponent } from "./pages/home-contact/home-contact.component";
+import { CommonModule } from "@angular/common";
+import { RegisterComponent } from "./pages/auth/register/register.component";
+import { LoginComponent } from "./pages/auth/login/login.component";
+import { AuthModule } from "./pages/auth/auth.module";
+import { HomeProfileComponent } from "./pages/home-profile/home-profile.component";
+import { HomeVehiclesComponent } from "./pages/home-vehicles/home-vehicles.component";
+import { GenericFormComponent } from "../../shared/components/form/form.component";
+import { UploadImageComponent } from "../../shared/components/upload-image/upload-image.component";
+import { TableComponent } from "../../shared/components/table/table.component";
+import { AlertComponent } from "../../shared/components/alert/alert.component";
+import { HomeAppointmentComponent } from "./pages/home-profile/home-appointment/home-appointment.component";
 @NgModule({
-    declarations: [PublicComponent, HomeComponent],
+    declarations: [PublicComponent, HomeComponent, HomeServicesComponent, HomeContactComponent, HomeProfileComponent, HomeVehiclesComponent, HomeAppointmentComponent],
     imports: [
     PublicRoutingModule,
     PublicHeaderComponent,
@@ -25,7 +39,14 @@ import { HomeFAQComponent } from "./layouts/home-faq/home-faq.component";
     HomeBrandsComponent,
     WhyChooseUsComponent,
     HomeTitleComponent,
-    HomeFAQComponent
+    HomeFAQComponent,
+    ReactiveFormsModule,
+    CommonModule,
+    AuthModule,
+    GenericFormComponent,
+    UploadImageComponent,
+    TableComponent,
+    AlertComponent
 ]
   })
   export class PublicModule {}

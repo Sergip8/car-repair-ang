@@ -11,7 +11,7 @@ interface FAQ {
 
 @Component({
   selector: 'app-home-faq',
-  imports: [NgClass, NgFor],
+  imports: [ NgFor],
   templateUrl: './home-faq.component.html',
   styleUrl: './home-faq.component.scss'
 })

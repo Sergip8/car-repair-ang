@@ -1,0 +1,140 @@
+<div class="services-page">
+    <!-- Canvas Background -->
+    
+    <!-- Main Content -->
+    <canvas  #backgroundCanvas class="background-canvas"></canvas>
+    <div *ngIf="services" class="services-container">
+      <!-- Header Section -->
+      <header class="services-header">
+        <h1 class="main-title">Nuestros Servicios</h1>
+        <p class="main-subtitle">
+          Ofrecemos servicios especializados de reparación automotriz con más de 15 años de experiencia
+        </p>
+      </header>
+  
+      <!-- Services Layout -->
+      <div class="services-layout">
+        <!-- Services Navigation -->
+        <nav class="services-nav">
+          <h2 class="nav-title">Especialidades</h2>
+          <ul class="services-list">
+            <li 
+              *ngFor="let service of services; let i = index"
+              class="service-nav-item"
+              [class.active]="selectedService?.id === service.id"
+              (click)="selectService(service)"
+            >
+              <div class="service-icon">{{ service.icon }}</div>
+              <span class="service-name">{{ service.title }}</span>
+              <div class="nav-indicator"></div>
+            </li>
+          </ul>
+        </nav>
+  
+        <!-- Service Details -->
+        <main class="service-details" *ngIf="selectedService">
+          <div class="service-header">
+            <div class="service-icon-large">{{ selectedService?.icon }}</div>
+            <div class="service-info">
+              <h3 class="service-title">{{ selectedService?.title }}</h3>
+              <p class="service-description">{{ selectedService?.description }}</p>
+            </div>
+          </div>
+  
+          <div class="service-content">
+            <!-- Features Section -->
+            <div class="features-section">
+              <h4 class="section-title">¿Qué incluye?</h4>
+              <div class="features-grid">
+                <div 
+                  *ngFor="let feature of selectedService?.features; let i = index"
+                  class="feature-item"
+                  [style.animation-delay.ms]="i * 100"
+                >
+                  <div class="feature-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <span class="feature-text">{{ feature }}</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Service Details -->
+            <div class="service-meta">
+              <div class="meta-item price-item">
+                <div class="meta-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Precio</span>
+                  <span class="meta-value">{{ selectedService?.price }}</span>
+                </div>
+              </div>
+  
+              <div class="meta-item duration-item">
+                <div class="meta-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Duración</span>
+                  <span class="meta-value">{{ selectedService?.duration }}</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Call to Action -->
+            <div class="service-cta">
+              <button class="cta-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 5a2 2 0 0 1 2-2h3.28a1 1 0 0 1 .948.684l1.498 4.493a1 1 0 0 1-.502 1.21l-2.257 1.13a11.042 11.042 0 0 0 5.516 5.516l1.13-2.257a1 1 0 0 1 1.21-.502l4.493 1.498a1 1 0 0 1 .684.949V19a2 2 0 0 1-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Solicitar Cotización
+              </button>
+              <button class="cta-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Agendar Cita
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+  
+      <!-- Bottom Info Section -->
+      <section class="bottom-info">
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-icon">🏆</div>
+            <h4>15+ Años de Experiencia</h4>
+            <p>Especialistas certificados en reparación automotriz</p>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">🔧</div>
+            <h4>Equipos Modernos</h4>
+            <p>Tecnología de diagnóstico de última generación</p>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">✅</div>
+            <h4>Garantía Extendida</h4>
+            <p>6 meses de garantía en todos nuestros servicios</p>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">🚗</div>
+            <h4>Todas las Marcas</h4>
+            <p>Trabajamos con vehículos de cualquier marca y modelo</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>

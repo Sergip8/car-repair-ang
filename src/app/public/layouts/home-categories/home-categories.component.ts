@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CardComponent } from '../../components/card/card.component';
+import { Component, Input } from '@angular/core';
+import { CardComponent, CardData } from '../../components/card/card.component';
 import { NgClass, NgFor } from '@angular/common';
 
 @Component({
@@ -10,7 +10,7 @@ import { NgClass, NgFor } from '@angular/common';
 })
 export class HomeCategoriesComponent {
 
-  cardData = [ 
+  @Input() cardData: CardData[] = [ 
     {
       title: 'Cambio de Aceite',
       subtitle: 'Servicio Premium',
