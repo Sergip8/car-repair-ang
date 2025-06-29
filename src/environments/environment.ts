@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://net-car-repair.onrender.com',
+    apiUrl: 'https://net-car-repair.onrender.com/api',
     cacheExpiration: 3600000, 
     defaultPageSize: 10,
     maxPageSize: 100,
