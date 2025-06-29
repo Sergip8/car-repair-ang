@@ -6,8 +6,10 @@ import { Vehicle } from '../../app/models/vehicle';
 import { CacheService } from './cache.service';
 import { handleError } from './handler/handle-error';
 import { PaginationRequest, PaginationResponse } from '../../app/models/pagination';
+import { environment } from '../../environments/environment';
 
-const baseUrl = 'http://localhost:5167/api/Vehicle';
+
+const baseUrl = `${environment.apiUrl}/Vehicle`;
 
 @Injectable({
   providedIn: 'root'

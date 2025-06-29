@@ -4,6 +4,7 @@ import { ServiceRequest } from "../../app/models/service";
 import { catchError, Observable, of, retry, Subject, take, tap, throwError, timeout } from "rxjs";
 import { CacheService } from "./cache.service";
 import { handleError } from "./handler/handle-error";
+import { environment } from "../../environments/environment";
 
 
 interface CacheEntry<T> {
@@ -12,7 +13,7 @@ interface CacheEntry<T> {
     expiry: number;
   }
 
-  const baseUrl = "http://localhost:5167/api/"
+const baseUrl = `${environment.apiUrl}/`;
   
   @Injectable({
     providedIn: 'root'

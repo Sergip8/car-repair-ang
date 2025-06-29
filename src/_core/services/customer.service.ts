@@ -5,8 +5,9 @@ import { catchError, retry, tap, timeout } from 'rxjs/operators';
 import { Customer } from '../../app/models/customer';
 import { CacheService } from './cache.service';
 import { handleError } from './handler/handle-error';
+import { environment } from '../../environments/environment';
 
-const baseUrl = 'http://localhost:5167/api/Customer';
+const baseUrl = `${environment.apiUrl}/Customer`;
 
 @Injectable({
   providedIn: 'root'

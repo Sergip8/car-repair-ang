@@ -5,12 +5,13 @@ import { BehaviorSubject, Observable, tap, catchError, of, throwError } from 'rx
 import { Router } from '@angular/router';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '../../app/models/auth';
 import { ApiRequest } from '../../app/models/api-request';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:5167/api/User'; // Cambia por tu URL de API
+ private API_URL = `${environment.apiUrl}/User`;
   
   // Subjects para mantener el estado de la autenticación en memoria.
   private currentUserSubject = new BehaviorSubject<User | null>(null);
