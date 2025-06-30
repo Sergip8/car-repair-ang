@@ -5,11 +5,12 @@ import { hasRoleGuard, Role } from '../_core/guard/role.guard';
 
 export enum AppRoutes{
   Admin = "admin",
+  Public = ''
 }
 export const routes: Routes = [
 
     {
-        path: '',
+        path: AppRoutes.Public,
         component: PublicComponent,
         loadChildren: () => import('./public/public.module').then(m => m.PublicModule),
     },
