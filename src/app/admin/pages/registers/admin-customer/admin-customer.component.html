@@ -1,0 +1,8 @@
+<div class="container">
+    <app-table *ngIf="tableData" (delete)="onDelete($event)" (edit)="onEdit($event)" (pageChange)="pageChange($event)" [pagination]="paginationData" [columns]="customerTableColumns" [data]="tableData"></app-table>
+    <div class="">
+        <app-form [config]="customerFormSchema" (formSubmit)="onFormSubmit($event)"></app-form>
+    
+    </div>
+
+</div>
