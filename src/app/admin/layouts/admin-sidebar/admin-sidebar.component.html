@@ -1,0 +1,69 @@
+<aside class="admin-sidebar" [class.collapsed]="isCollapsed">
+  <!-- Header del Sidebar -->
+  <div class="sidebar-header">
+    <div class="logo-container" *ngIf="!isCollapsed">
+      <h2 class="logo-text">Admin Panel</h2>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Navegación Principal -->
+  <nav class="sidebar-nav">
+    <!-- Dashboard -->
+    <div class="nav-section">
+      <div class="nav-item dashboard-item" (click)="navigateTo('Dashboard')">
+        <i class="fas fa-tachometer-alt nav-icon"></i>
+        <span class="nav-text" *ngIf="!isCollapsed">Dashboard</span>
+      </div>
+    </div>
+
+    <!-- Registros - Menú Desplegable -->
+    <div class="nav-section">
+      <div 
+        class="nav-item dropdown-header" 
+        [class.active]="isRegistrosExpanded"
+        (click)="toggleRegistrosMenu()"
+      >
+       
+        <span class="nav-text" *ngIf="!isCollapsed">Registros</span>
+        <i 
+          class="fas fa-chevron-down dropdown-arrow" 
+          *ngIf="!isCollapsed"
+          [class.rotated]="isRegistrosExpanded"
+        ></i>
+      </div>
+      
+      <!-- Submenú de Registros -->
+      <div 
+        class="dropdown-menu" 
+        [class.expanded]="isRegistrosExpanded && !isCollapsed"
+        [class.collapsed-expanded]="isRegistrosExpanded && isCollapsed"
+      >
+        <div 
+          class="nav-item nav-subitem" 
+          *ngFor="let entity of entitySpaList"
+          (click)="navigateTo(entity)"
+        >
+          <i [class]="getIconForEntity(entity) + ' nav-icon'"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">{{ entity }}</span>
+          <!-- Tooltip para modo colapsado -->
+          <div class="tooltip" *ngIf="isCollapsed">{{ entity }}</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Footer del Sidebar -->
+  <div class="sidebar-footer">
+    <div class="nav-item" (click)="onSettings()">
+      <i class="fas fa-cog nav-icon"></i>
+      <span class="nav-text" *ngIf="!isCollapsed">Configuración</span>
+    </div>
+    <div class="nav-item logout-item" (click)="onLogout()">
+      <i class="fas fa-sign-out-alt nav-icon"></i>
+      <span class="nav-text" *ngIf="!isCollapsed">Cerrar Sesión</span>
+    </div>
+  </div>
+</aside>

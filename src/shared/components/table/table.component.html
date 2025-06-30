@@ -76,23 +76,28 @@
                   <span *ngSwitchDefault class="text-value">
                     {{ item[column.key] }}
                   </span>
+                <span *ngSwitchCase="'actions'" class="action-buttons">
+                  <button 
+                    class="btn btn-edit"
+                    (click)="edit.emit(item)"
+                    aria-label="Edit item">
+                    <svg class="icon-edit" width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <path stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.8 12.963L2 18l4.8-.63L18.11 6.58a2.612 2.612 0 00-3.601-3.785L3.8 12.963z"/>
+</svg>
+                    <span>Edit</span>
+                  </button>
+                  <button 
+                    class="btn btn-delete"
+                    (click)="delete.emit(item)"
+                    aria-label="Delete item">
+                    <svg class="icon-delete" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"/></svg>
+                    <span>Delete</span>
+                  </button>
+                </span>
                 </ng-container>
               </td>
               
-              <td *ngIf="rowActions.length > 0" class="actions-cell">
-                <div class="action-buttons">
-                  <button 
-                    *ngFor="let action of rowActions"
-                    class="btn btn-sm"
-                    [class]="'btn-' + (action.color || 'secondary')"
-                    (click)="action.callback(item)"
-                    [title]="action.label"
-                  >
-                    <i *ngIf="action.icon" [class]="action.icon"></i>
-                    <span *ngIf="!action.icon">{{ action.label }}</span>
-                  </button>
-                </div>
-              </td>
+            
             </tr>
             
             <tr *ngIf="data.length === 0" class="empty-row">

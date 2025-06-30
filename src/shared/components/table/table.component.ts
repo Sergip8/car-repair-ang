@@ -6,7 +6,7 @@ import { PaginationComponent } from "../pagination/pagination";
 export interface TableColumn {
   key: string;
   label: string;
-  type?: 'text' | 'image' | 'number' | 'date' | 'boolean';
+  type?: 'text' | 'image' | 'number' | 'date' | 'boolean' | 'actions';
   sortable?: boolean;
   width?: string;
   align?: 'left' | 'center' | 'right';
@@ -37,6 +37,8 @@ export class TableComponent {
   @Input() loading: boolean = false;
   @Input() pagination!: Pagination;
 
+  @Output() delete = new EventEmitter<any>();
+  @Output() edit = new EventEmitter<any>();
 
   @Output() sortChange = new EventEmitter<{column: string, direction: 'asc' | 'desc'}>();
   @Output() pageChange = new EventEmitter<number>();

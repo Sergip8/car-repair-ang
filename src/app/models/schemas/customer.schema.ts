@@ -1,4 +1,5 @@
 import { FormConfig } from "../../../shared/components/form/form.component";
+import { TableColumn } from "../../../shared/components/table/table.component";
 
 export const createCustomerFormConfig: FormConfig = {
   title: 'Crear Cliente',
@@ -57,3 +58,48 @@ export const createCustomerFormConfig: FormConfig = {
     }
   ]
 };
+
+export const customerTableConfig: TableColumn[] = [
+  {
+      key: 'firstName',
+      label: 'Nombre',
+    type: 'text',
+    sortable: true,
+    align: 'left',
+  },
+  {
+      key: 'lastName',
+      label: 'Apellido',
+      type: 'text',
+      sortable: true,
+      align: 'left',
+  },
+  {
+      key: 'phoneNumber',
+      label: 'Teléfono',
+    type: 'text',
+    sortable: true,
+    align: 'left',
+  },
+  {
+      key: 'city',
+      label: 'Ciudad',
+    type: 'text',
+    sortable: false,
+    align: 'left',
+  },
+  {
+      key: 'address',
+      label: 'Dirección',
+    type: 'text',
+    sortable: true,
+    align: 'left',
+  },
+   {
+      key: 'action',
+      label: 'Acciones',
+    type: 'actions',
+    sortable: true,
+    align: 'left',
+  },
+];

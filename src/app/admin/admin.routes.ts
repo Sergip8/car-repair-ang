@@ -1,8 +1,14 @@
 export enum AdminRoutes {
     Dashboard = 'dashboard',
-    Users = 'users',
+    
+    Registers = "registers",
+}
+export enum ElementRoutes {
+ Users = 'users',
+ Customers = 'customers',
     Vehicles = 'vehicles',
     Orders = 'orders',
     Parts = 'parts',
+ 
 }
 

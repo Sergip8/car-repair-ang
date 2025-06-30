@@ -181,6 +181,14 @@ export class AuthService {
   }
 
   /**
+   * Devuelve el rol del usuario autenticado, o null si no hay usuario.
+   */
+  getRole(): string[] | null {
+    const user = this.getCurrentUser();
+    return user && user.roleName ? [user?.roleName] : null; 
+  }
+
+  /**
    * Valida el token actual contra la API.
    */
   validateToken() {

@@ -6,6 +6,7 @@ import { Customer } from '../../app/models/customer';
 import { CacheService } from './cache.service';
 import { handleError } from './handler/handle-error';
 import { environment } from '../../environments/environment';
+import { PaginationRequest, PaginationResponse } from '../../app/models/pagination';
 
 const baseUrl = `${environment.apiUrl}/Customer`;
 
@@ -15,14 +16,14 @@ const baseUrl = `${environment.apiUrl}/Customer`;
 export class CustomerService {
   constructor(private http: HttpClient, private cacheService: CacheService) {}
 
-  getCustomers(): Observable<Customer[]> {
-    const cacheKey = this.cacheService.generateCacheKey(baseUrl);
-    const cachedData = this.cacheService.getFromCache<Customer[]>(cacheKey);
+  getCustomers(pagination: PaginationRequest): Observable<PaginationResponse<Customer[]>> {
+    const cacheKey = this.cacheService.generateCacheKey(baseUrl+"/Paginated");
+    const cachedData = this.cacheService.getFromCache<PaginationResponse<Customer[]>>(cacheKey);
     if (cachedData) {
       return of(cachedData);
     }
     this.cacheService.cleanExpiredCache();
-    return this.http.get<Customer[]>(baseUrl)
+    return this.http.post<PaginationResponse<Customer[]>>(baseUrl+"/Paginated", pagination)
       .pipe(
         timeout(10000),
         retry(2),

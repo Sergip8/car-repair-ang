@@ -4,6 +4,7 @@ export interface User {
   email: string;
   customerId?: number;
   roleName?: string;
+  role?: string[]; // Added for compatibility
 }
 
 export interface LoginRequest {
