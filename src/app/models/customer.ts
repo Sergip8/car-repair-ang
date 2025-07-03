@@ -1,11 +1,11 @@
-export interface Customer {
-    id: number;
-    name: string;
-    email: string;
-    phoneNumber: string;
+export class Customer {
+    id: number = 0;
+    name: string = "";
+    phoneNumber: string = "";
+    email: string = ""
     address?: string;
     city?: string;
     postalCode?: string;
-    State?: string;
+    state?: string;
     
   }

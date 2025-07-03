@@ -1,69 +1,64 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Observable, throwError, BehaviorSubject, filter, take, switchMap, catchError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
+// Variables globales para manejar el estado del refresh token
+let isRefreshing = false;
+let refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  
+  // Agregar token a las peticiones si está disponible
+  const token = authService.getToken();
+  const authReq = token ? addToken(req, token) : req;
 
-  constructor(private authService: AuthService) {}
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Si el error es 401 y tenemos un token, intentar renovarlo
+      if (error.status === 401 && token) {
+        return handle401Error(authReq, next, authService);
+      }
+      
+      return throwError(() => error);
+    })
+  );
+};
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Agregar token a las peticiones si está disponible
-    const token = this.authService.getToken();
-    if (token) {
-      request = this.addToken(request, token);
+function addToken(request: any, token: string) {
+  return request.clone({
+    setHeaders: {
+      'Authorization': `Bearer ${token}`
     }
+  });
+}
 
-    return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // Si el error es 401 y tenemos un token, intentar renovarlo
-        if (error.status === 401 && token) {
-          return this.handle401Error(request, next);
-        }
-        
+function handle401Error(request: any, next: any, authService: AuthService): Observable<any> {
+  if (!isRefreshing) {
+    isRefreshing = true;
+    refreshTokenSubject.next(null);
+
+    return authService.refreshToken().pipe(
+      switchMap((response: any) => {
+        isRefreshing = false;
+        refreshTokenSubject.next(response.token);
+        return next(addToken(request, response.token));
+      }),
+      catchError((error) => {
+        isRefreshing = false;
+        authService.logout();
         return throwError(() => error);
       })
     );
-  }
-
-  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-  }
-
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-
-      return this.authService.refreshToken().pipe(
-        switchMap((response: any) => {
-          this.isRefreshing = false;
-          this.refreshTokenSubject.next(response.token);
-          return next.handle(this.addToken(request, response.token));
-        }),
-        catchError((error) => {
-          this.isRefreshing = false;
-          this.authService.logout();
-          return throwError(() => error);
-        })
-      );
-    } else {
-      // Si ya se está renovando el token, esperar a que termine
-      return this.refreshTokenSubject.pipe(
-        filter(token => token != null),
-        take(1),
-        switchMap(token => {
-          return next.handle(this.addToken(request, token));
-        })
-      );
-    }
+  } else {
+    // Si ya se está renovando el token, esperar a que termine
+    return refreshTokenSubject.pipe(
+      filter(token => token != null),
+      take(1),
+      switchMap(token => {
+        return next(addToken(request, token));
+      })
+    );
   }
 }

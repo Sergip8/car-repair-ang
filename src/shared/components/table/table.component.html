@@ -1,127 +1,137 @@
- <div class="table-container">
-      <div class="table-header" *ngIf="title">
-        <h3 class="table-title">{{ title }}</h3>
-        <div class="table-actions" *ngIf="globalActions.length > 0">
-          <button 
-            *ngFor="let action of globalActions"
-            class="btn btn-primary"
-            (click)="action.callback(null)"
-          >
-            <i *ngIf="action.icon" [class]="action.icon"></i>
-            {{ action.label }}
-          </button>
-        </div>
-      </div>
+<div class="form-container">
 
-      <div class="table-wrapper">
-        <table class="generic-table">
-          <thead>
-            <tr>
-              <th 
-                *ngFor="let column of columns" 
-                [class.sortable]="column.sortable"
-                [style.width]="column.width"
-                [style.text-align]="column.align || 'left'"
-                (click)="column.sortable ? onSort(column.key) : null"
+  <div class="table-container">
+    <div class="action-add">
+      <button
+        class="btn btn-add"
+        (click)="add.emit()"
+        aria-label="Agregar nuevo registro"
+      >
+      <svg  width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V9M13 3L19 9M13 3V8C13 8.55228 13.4477 9 14 9H19M12 13V17M14 15H10" class="icon-add" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+        <span>Nuevo Registro</span> 
+      </button>
+    
+    </div>
+    <div class="table-header" *ngIf="title">
+      <h3 class="table-title">{{ title }}</h3>
+      <!-- Nuevo botón para agregar registro -->
+      <div class="header-actions">
+        <!-- Acciones globales existentes -->
+      </div>
+    </div>
+  
+    <div class="table-wrapper">
+      <table class="generic-table">
+        <thead>
+          <tr>
+            <th
+              *ngFor="let column of columns"
+              [class.sortable]="column.sortable"
+              [style.width]="column.width"
+              [style.text-align]="column.align || 'left'"
+              (click)="column.sortable ? onSort(column.key) : null"
+            >
+              {{ column.label }}
+              <span
+                *ngIf="column.sortable"
+                class="sort-indicator"
+                [class.active]="sortColumn === column.key"
               >
-                {{ column.label }}
-                <span 
-                  *ngIf="column.sortable" 
-                  class="sort-indicator"
-                  [class.active]="sortColumn === column.key"
-                >
-                  <i [class]="getSortIcon(column.key)"></i>
+                <i [class]="getSortIcon(column.key)"></i>
+              </span>
+            </th>
+            <th *ngIf="rowActions.length > 0" class="actions-column">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data; trackBy: trackByFn; index as i"
+              [class.even]="i % 2 === 0"
+              [class.odd]="i % 2 === 1">
+            <td
+              *ngFor="let column of columns"
+              [style.text-align]="column.align || 'left'"
+              [class.image-cell]="column.type === 'image'"
+            >
+              <ng-container [ngSwitch]="column.type">
+                <!-- Imagen con miniatura -->
+                <div *ngSwitchCase="'image'" class="image-container">
+                  <img
+                    [src]="getImageSrc(item[column.key])"
+                    [alt]="column.label"
+                    class="table-image"
+                    (error)="onImageError($event)"
+                    (click)="onImageClick(item[column.key])"
+                  />
+                </div>
+  
+                <!-- Booleano -->
+                <span *ngSwitchCase="'boolean'" class="boolean-indicator">
+                  <i [class]="item[column.key] ? 'fas fa-check-circle success' : 'fas fa-times-circle error'"></i>
                 </span>
-              </th>
-              <th *ngIf="rowActions.length > 0" class="actions-column">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of data; trackBy: trackByFn; index as i" 
-                [class.even]="i % 2 === 0"
-                [class.odd]="i % 2 === 1">
-              <td 
-                *ngFor="let column of columns"
-                [style.text-align]="column.align || 'left'"
-                [class.image-cell]="column.type === 'image'"
-              >
-                <ng-container [ngSwitch]="column.type">
-                  <!-- Imagen con miniatura -->
-                  <div *ngSwitchCase="'image'" class="image-container">
-                    <img 
-                      [src]="getImageSrc(item[column.key])" 
-                      [alt]="column.label"
-                      class="table-image"
-                      (error)="onImageError($event)"
-                      (click)="onImageClick(item[column.key])"
-                    />
-                  </div>
-                  
-                  <!-- Booleano -->
-                  <span *ngSwitchCase="'boolean'" class="boolean-indicator">
-                    <i [class]="item[column.key] ? 'fas fa-check-circle success' : 'fas fa-times-circle error'"></i>
-                  </span>
-                  
-                  <!-- Número -->
-                  <span *ngSwitchCase="'number'" class="number-value">
-                    {{ formatNumber(item[column.key]) }}
-                  </span>
-                  
-                  <!-- Fecha -->
-                  <span *ngSwitchCase="'date'" class="date-value">
-                    {{ formatDate(item[column.key]) }}
-                  </span>
-                  
-                  <!-- Texto por defecto -->
-                  <span *ngSwitchDefault class="text-value">
-                    {{ item[column.key] }}
-                  </span>
-                <span *ngSwitchCase="'actions'" class="action-buttons">
-                  <button 
-                    class="btn btn-edit"
-                    (click)="edit.emit(item)"
-                    aria-label="Edit item">
-                    <svg class="icon-edit" width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+  
+                <!-- Número -->
+                <span *ngSwitchCase="'number'" class="number-value">
+                  {{ formatNumber(item[column.key]) }}
+                </span>
+  
+                <!-- Fecha -->
+                <span *ngSwitchCase="'date'" class="date-value">
+                  {{ formatDate(item[column.key]) }}
+                </span>
+  
+                <!-- Texto por defecto -->
+                <span *ngSwitchDefault class="text-value">
+                  {{ item[column.key] }}
+                </span>
+              <span *ngSwitchCase="'actions'" class="action-buttons">
+                <button
+                  class="btn btn-edit"
+                  (click)="edit.emit(item)"
+                  aria-label="Edit item">
+                  <svg class="icon-edit" width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
   <path stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.8 12.963L2 18l4.8-.63L18.11 6.58a2.612 2.612 0 00-3.601-3.785L3.8 12.963z"/>
-</svg>
-                    <span>Edit</span>
-                  </button>
-                  <button 
-                    class="btn btn-delete"
-                    (click)="delete.emit(item)"
-                    aria-label="Delete item">
-                    <svg class="icon-delete" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"/></svg>
-                    <span>Delete</span>
-                  </button>
-                </span>
-                </ng-container>
-              </td>
-              
-            
-            </tr>
-            
-            <tr *ngIf="data.length === 0" class="empty-row">
-              <td [attr.colspan]="columns.length + (rowActions.length > 0 ? 1 : 0)" class="empty-message">
-                {{ emptyMessage || 'No hay datos para mostrar' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Paginación -->
-      <div class="pagination-container" *ngIf="pagination && pagination.count > 0">
-      <app-pagination 
-        [pageData]="pagination"
-        (pageChange)="goToPage($event)"
-      ></app-pagination>
-      </div>
+  </svg>
+                  <span>Edit</span>
+                </button>
+                <button
+                  class="btn btn-delete"
+                  (click)="delete.emit(item)"
+                  aria-label="Delete item">
+                  <svg class="icon-delete" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"/></svg>
+                  <span>Delete</span>
+                </button>
+              </span>
+              </ng-container>
+            </td>
+  
+  
+          </tr>
+  
+          <tr *ngIf="data.length === 0" class="empty-row">
+            <td [attr.colspan]="columns.length + (rowActions.length > 0 ? 1 : 0)" class="empty-message">
+              {{ emptyMessage || 'No hay datos para mostrar' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <!-- Modal para imagen ampliada -->
-    <div class="image-modal" *ngIf="selectedImage" (click)="closeImageModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="closeImageModal()">&times;</button>
-        <img [src]="selectedImage" alt="Imagen ampliada" class="modal-image">
-      </div>
+  
+    <!-- Paginación -->
+    <div class="pagination-container" *ngIf="pagination && pagination.count > 0">
+    <app-pagination
+      [pageData]="pagination"
+      (pageChange)="goToPage($event)"
+    ></app-pagination>
     </div>
+  </div>
+  
+  <!-- Modal para imagen ampliada -->
+  <div class="image-modal" *ngIf="selectedImage" (click)="closeImageModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeImageModal()">&times;</button>
+      <img [src]="selectedImage" alt="Imagen ampliada" class="modal-image">
+    </div>
+  </div>
+</div>

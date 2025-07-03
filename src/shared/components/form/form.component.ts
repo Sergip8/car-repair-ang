@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'date' | 'datetime-local';
+  type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'date' | 'datetime-local' | 'search';
   placeholder?: string;
   required?: boolean;
   validators?: any[];
@@ -35,13 +35,18 @@ export class GenericFormComponent implements OnInit {
   @Input() config: FormConfig = { fields: [] };
   @Input() initialData: any = {};
   @Input() loading: boolean = false;
-
+  @Input() title: string = ""
+  @Input() subtitle: string = ""
+  @Input() requestType: "create" | "update" = "create"
+  @Input() inputDropdown?: {field: string, data: string[]}
   
   @Output() formSubmit = new EventEmitter<any>();
   @Output() formCancel = new EventEmitter<void>();
   @Output() formChange = new EventEmitter<any>();
+  @Output() dataSearch = new EventEmitter<{value: string, field: string}>();
 
   form: FormGroup = new FormGroup({});
+  dropdownShow: string[] = []
 
   constructor(private fb: FormBuilder) {}
 
@@ -62,6 +67,7 @@ export class GenericFormComponent implements OnInit {
       if (field.type === 'email') {
         validators.push(Validators.email);
       }
+  
       
       if (field.validators) {
         validators.push(...field.validators);
@@ -70,7 +76,7 @@ export class GenericFormComponent implements OnInit {
       const initialValue = this.initialData[field.name] || field.value || '';
       
       formControls[field.name] = [
-        { value: initialValue, disabled: field.disabled || false },
+        { value: initialValue, disabled: field.disabled || (field.type == 'search' && this.requestType === 'update') || false },
         validators
       ];
     });
@@ -84,9 +90,10 @@ export class GenericFormComponent implements OnInit {
   }
 
  onSubmit() {
-  if (this.form.valid) {
-    const formValue = { ...this.form.value };
+ 
 
+  if (this.form.valid) {
+    const formValue = { ...this.form.getRawValue() };
     // Convertir los campos numéricos a número
     this.config.fields.forEach(field => {
       if (field.type === 'number') {
@@ -97,7 +104,11 @@ export class GenericFormComponent implements OnInit {
       }
     });
 
-    this.formSubmit.emit(formValue);
+    if(this.requestType === "update")
+    this.formSubmit.emit({...formValue, id: this.initialData.id});
+      if(this.requestType === "create")
+    this.formSubmit.emit({...formValue});
+    
   } else {
     this.markAllFieldsAsTouched();
   }
@@ -154,5 +165,22 @@ export class GenericFormComponent implements OnInit {
   isFieldValid(fieldName: string): boolean {
     const control = this.form.get(fieldName);
     return !!(control?.valid && control.touched);
+  }
+  onSearch(key: string){
+
+    if(this.form.value[key].length >3){
+      this.dropdownShow.push(key)
+    this.dataSearch.emit({value: this.form.value[key], field: key})
+
+    }
+    else
+    this.inputDropdown = undefined
+  }
+  selectSearch(field: string, value: string){
+    this.form.controls[field].setValue(value)
+    const index = this.dropdownShow.indexOf(field)
+    if(index != -1){
+      this.dropdownShow.splice(index, 1)
+    }
   }
 }

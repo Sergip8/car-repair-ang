@@ -1,7 +1,20 @@
 <div class="container">
-    <app-table *ngIf="tableData" (delete)="onDelete($event)" (edit)="onEdit($event)" (pageChange)="pageChange($event)" [pagination]="paginationData" [columns]="customerTableColumns" [data]="tableData"></app-table>
+    <app-table *ngIf="tableData" (delete)="onDelete($event)" (edit)="onEdit($event)" (add)="onAdd()" (pageChange)="pageChange($event)" [pagination]="paginationData" [columns]="customerTableColumns" [data]="tableData"></app-table>
     <div class="">
-        <app-form [config]="customerFormSchema" (formSubmit)="onFormSubmit($event)"></app-form>
+        <app-modal 
+        [isOpen]="isModalOpen"
+        [title]="modalTitle"
+        [size]="modalSize"
+        [position]="modalPosition"
+        [closeOnBackdrop]="true"
+        [showCloseButton]="true"
+        (closeModal)="closeModal()"
+        (modalOpened)="onModalOpened()"
+        (modalClosed)="onModalClosed()">
+        @if(formData && isModalOpen){
+          <app-form [config]="customerFormSchema" (dataSearch)="onSearch($event)" [inputDropdown]="inputFormDropdown" [requestType]="requestType" [initialData]="formData" (formSubmit)="onFormSubmit($event)" [title]="formTitle" [subtitle]="formSubtitle"></app-form>
+        }
+      </app-modal>
     
     </div>
 

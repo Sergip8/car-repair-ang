@@ -1,5 +1,6 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { expandCollapse, fadeInUp, iconRotate } from '../../../../shared/utils/animation';
 
 
 interface FAQ {
@@ -13,7 +14,8 @@ interface FAQ {
   selector: 'app-home-faq',
   imports: [ NgFor],
   templateUrl: './home-faq.component.html',
-  styleUrl: './home-faq.component.scss'
+  styleUrl: './home-faq.component.scss',
+  animations: [expandCollapse, iconRotate, fadeInUp]
 })
 export class HomeFAQComponent {
   faqs: FAQ[] = [
@@ -60,6 +62,25 @@ export class HomeFAQComponent {
   ];
 
   toggleFaq(index: number): void {
+    // Opcional: Cerrar otros FAQs (accordion behavior)
+    // this.faqs.forEach((faq, i) => {
+    //   if (i !== index) faq.isOpen = false;
+    // });
+    
     this.faqs[index].isOpen = !this.faqs[index].isOpen;
+  }
+
+  // Método para cerrar todos los FAQs
+  closeAllFaqs(): void {
+    this.faqs.forEach(faq => faq.isOpen = false);
+  }
+
+  // Método para obtener el estado de la animación
+  getExpandState(isOpen: boolean): string {
+    return isOpen ? 'expanded' : 'collapsed';
+  }
+
+  getIconState(isOpen: boolean): string {
+    return isOpen ? 'rotated' : 'default';
   }
 }

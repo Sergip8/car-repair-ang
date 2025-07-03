@@ -10,6 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { AdminCustomerComponent } from './pages/registers/admin-customer/admin-customer.component';
 import { GenericFormComponent } from '../../shared/components/form/form.component';
 import { TableComponent } from '../../shared/components/table/table.component';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 
 
@@ -28,7 +29,8 @@ import { TableComponent } from '../../shared/components/table/table.component';
     AdminRoutingModule,
     BaseChartDirective,
     GenericFormComponent,
-    TableComponent
+    TableComponent,
+    ModalComponent
   ],
  
  

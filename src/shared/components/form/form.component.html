@@ -1,31 +1,43 @@
 <div class="form-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="generic-form">
-    
+
     <!-- Form Header -->
-    <div class="form-header" *ngIf="config.title || config.subtitle">
-      <h2 class="form-title" *ngIf="config.title">{{ config.title }}</h2>
-      <p class="form-subtitle" *ngIf="config.subtitle">{{ config.subtitle }}</p>
+    <div class="form-header" *ngIf="title || subtitle">
+      <h2 class="form-title" *ngIf="title">{{ title }}</h2>
+      <p class="form-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
     </div>
 
     <!-- Form Fields -->
     <div class="form-body">
       <div class="form-group" *ngFor="let field of config.fields">
-        
+
         <!-- Text, Email, Password, Number, Tel, URL inputs -->
         <div *ngIf="['text', 'email', 'password', 'number', 'tel', 'url'].includes(field.type)">
           <label [for]="field.name" class="form-label">
             {{ field.label }}
             <span class="required-asterisk" *ngIf="field.required">*</span>
           </label>
-          <input
-            [id]="field.name"
-            [type]="field.type"
-            [formControlName]="field.name"
-            [placeholder]="field.placeholder || ''"
-            class="form-input"
-            [class.input-error]="isFieldInvalid(field.name)"
-            [class.input-success]="isFieldValid(field.name)"
-          />
+          <input [id]="field.name" [type]="field.type" [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''" class="form-input" [class.input-error]="isFieldInvalid(field.name)"
+            [class.input-success]="isFieldValid(field.name)" />
+        </div>
+        <div *ngIf="field.type === 'search'" class="search-group">
+          <label [for]="field.name" class="form-label">
+            {{ field.label }}
+            <span class="required-asterisk" *ngIf="field.required">*</span>
+          </label>
+          <input (input)="onSearch(field.name)" [id]="field.name" [type]="field.type" [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''" class="form-input" [class.input-error]="isFieldInvalid(field.name)"
+            [class.input-success]="isFieldValid(field.name)"/>
+          @if(inputDropdown && inputDropdown.field == field.name && dropdownShow.includes(field.name)){
+          <div class="input-dropdown" >
+            @for (item of inputDropdown.data; track $index) {
+            <div (click)="selectSearch(field.name, item)" class="input-dropdown__item">
+              {{ item }}
+            </div>
+            }
+          </div>
+          }
         </div>
 
         <!-- Textarea -->
@@ -34,15 +46,9 @@
             {{ field.label }}
             <span class="required-asterisk" *ngIf="field.required">*</span>
           </label>
-          <textarea
-            [id]="field.name"
-            [formControlName]="field.name"
-            [placeholder]="field.placeholder || ''"
-            [rows]="field.rows || 4"
-            class="form-textarea"
-            [class.input-error]="isFieldInvalid(field.name)"
-            [class.input-success]="isFieldValid(field.name)"
-          ></textarea>
+          <textarea [id]="field.name" [formControlName]="field.name" [placeholder]="field.placeholder || ''"
+            [rows]="field.rows || 4" class="form-textarea" [class.input-error]="isFieldInvalid(field.name)"
+            [class.input-success]="isFieldValid(field.name)"></textarea>
         </div>
 
         <!-- Select -->
@@ -51,13 +57,8 @@
             {{ field.label }}
             <span class="required-asterisk" *ngIf="field.required">*</span>
           </label>
-          <select
-            [id]="field.name"
-            [formControlName]="field.name"
-            class="form-select"
-            [class.input-error]="isFieldInvalid(field.name)"
-            [class.input-success]="isFieldValid(field.name)"
-          >
+          <select [id]="field.name" [formControlName]="field.name" class="form-select"
+            [class.input-error]="isFieldInvalid(field.name)" [class.input-success]="isFieldValid(field.name)">
             <option value="" disabled>{{ field.placeholder || 'Seleccione una opción' }}</option>
             <option *ngFor="let option of field.options" [value]="option.value">
               {{ option.label }}
@@ -68,11 +69,7 @@
         <!-- Checkbox -->
         <div *ngIf="field.type === 'checkbox'" class="checkbox-group">
           <label class="checkbox-container">
-            <input
-              type="checkbox"
-              [formControlName]="field.name"
-              class="form-checkbox"
-            />
+            <input type="checkbox" [formControlName]="field.name" class="form-checkbox" />
             <span class="checkmark"></span>
             <span class="checkbox-label">
               {{ field.label }}
@@ -88,16 +85,8 @@
             <span class="required-asterisk" *ngIf="field.required">*</span>
           </label>
           <div class="radio-options">
-            <label 
-              *ngFor="let option of field.options" 
-              class="radio-container"
-            >
-              <input
-                type="radio"
-                [formControlName]="field.name"
-                [value]="option.value"
-                class="form-radio"
-              />
+            <label *ngFor="let option of field.options" class="radio-container">
+              <input type="radio" [formControlName]="field.name" [value]="option.value" class="form-radio" />
               <span class="radio-mark"></span>
               <span class="radio-label">{{ option.label }}</span>
             </label>
@@ -110,15 +99,9 @@
             {{ field.label }}
             <span class="required-asterisk" *ngIf="field.required">*</span>
           </label>
-          <input
-            [id]="field.name"
-            type="datetime-local"
-            [formControlName]="field.name"
-            [placeholder]="field.placeholder || ''"
-            class="form-input"
-            [class.input-error]="isFieldInvalid(field.name)"
-            [class.input-success]="isFieldValid(field.name)"
-          />
+          <input [id]="field.name" type="datetime-local" [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''" class="form-input" [class.input-error]="isFieldInvalid(field.name)"
+            [class.input-success]="isFieldValid(field.name)" />
         </div>
 
         <!-- Error message -->
@@ -126,28 +109,18 @@
           <i class="error-icon">⚠</i>
           {{ getFieldError(field.name) }}
         </div>
-        
+
       </div>
     </div>
 
     <!-- Form Actions -->
     <div class="form-actions">
-      <button
-        type="button"
-        class="btn btn-cancel"
-        *ngIf="config.showCancelButton"
-        (click)="onCancel()"
-        [disabled]="loading"
-      >
+      <button type="button" class="btn btn-cancel" *ngIf="config.showCancelButton" (click)="onCancel()"
+        [disabled]="loading">
         {{ config.cancelButtonText || 'Cancelar' }}
       </button>
-      
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="loading"
-        [class.loading]="loading"
-      >
+
+      <button type="submit" class="btn btn-primary" [disabled]="loading" [class.loading]="loading">
         <span *ngIf="!loading">{{ config.submitButtonText || 'Enviar' }}</span>
         <span *ngIf="loading" class="loading-spinner"></span>
         <span *ngIf="loading">Procesando...</span>

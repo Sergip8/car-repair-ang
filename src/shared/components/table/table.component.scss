@@ -1,10 +1,12 @@
 .table-container {
   background: var(--color-white);
-  border-radius: var(--border-radius);
+  
   box-shadow: var(--shadow);
   overflow: hidden;
   width: 100%;
   margin: 1rem 0;
+
+
 
   .table-header {
     display: flex;
@@ -196,23 +198,19 @@
   // Paginación
   .pagination-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
+    width: 100%;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding-right: 5rem;
+    
     background: var(--color-light-gray);
     border-top: 1px solid rgba(0, 18, 68, 0.1);
 
-    .pagination-info {
-      color: var(--color-dark);
-      font-size: var(--font-size-sm);
-    }
-
-    .pagination-controls {
-      display: flex;
-      gap: 0.5rem;
-    }
   }
 }
+app-pagination{
+  margin-right: 20px;
+} 
 
 // Estilos para botones
 .btn {
@@ -424,8 +422,13 @@
     .icon-edit{
       fill: #1d4ed8
     }
+    .icon-add{
+      stroke: #043f2b;
+      
+    }
 .action-buttons {
   display: flex;
+  justify-content: center;
   gap: 0.25rem; // space-x-1
   
   .btn {
@@ -457,6 +460,7 @@
         outline-offset: 2px;
       }
     }
+   
  
     
     &.btn-delete {
@@ -470,6 +474,39 @@
       
       &:focus {
         outline: 2px solid #ef4444;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+.action-add {
+  display: flex;
+  justify-content: end;
+  gap: 0.25rem; // space-x-1
+
+   .btn {
+    padding: 0.5rem 0.75rem; // px-3 py-2
+    border-radius: 0.375rem; // rounded
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid;
+  
+ &.btn-add {
+      margin-bottom: 10px;
+      background-color: #dffedb; // bg-blue-100
+      color: #0c5502; // text-blue-700
+      border-color: #42aa2e; // border-blue-200
+      
+      &:hover {
+        background-color: #d1febf; // hover:bg-blue-200
+      }
+      
+      &:focus {
+        outline: 2px solid #3bf63b;
         outline-offset: 2px;
       }
     }

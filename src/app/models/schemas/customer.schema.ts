@@ -9,49 +9,49 @@ export const createCustomerFormConfig: FormConfig = {
   showCancelButton: true,
   fields: [
     {
-      name: 'FirstName',
+      name: 'firstName',
       label: 'Nombre',
       type: 'text',
       required: true
     },
     {
-      name: 'LastName',
+      name: 'lastName',
       label: 'Apellido',
       type: 'text',
       required: true
     },
     {
-      name: 'Email',
-      label: 'Correo electrónico',
-      type: 'email',
-      required: true
-    },
-    {
-      name: 'PhoneNumber',
+      name: 'phoneNumber',
       label: 'Teléfono',
       type: 'text',
       required: false
     },
     {
-      name: 'Address',
+      name: 'email',
+      label: 'Email',
+      type: 'search',
+      required: false
+    },
+    {
+      name: 'address',
       label: 'Dirección',
       type: 'text',
       required: false
     },
     {
-      name: 'City',
+      name: 'city',
       label: 'Ciudad',
       type: 'text',
       required: false
     },
     {
-      name: 'PostalCode',
+      name: 'postalCode',
       label: 'Código Postal',
       type: 'text',
       required: false
     },
     {
-      name: 'State',
+      name: 'state',
       label: 'Departamento/Estado',
       type: 'text',
       required: false
@@ -100,6 +100,6 @@ export const customerTableConfig: TableColumn[] = [
       label: 'Acciones',
     type: 'actions',
     sortable: true,
-    align: 'left',
+    align: 'center',
   },
 ];

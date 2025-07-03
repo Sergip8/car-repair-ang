@@ -39,6 +39,8 @@ export class TableComponent {
 
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
+  @Output() add = new EventEmitter<any>();
+
 
   @Output() sortChange = new EventEmitter<{column: string, direction: 'asc' | 'desc'}>();
   @Output() pageChange = new EventEmitter<number>();

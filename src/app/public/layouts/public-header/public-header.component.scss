@@ -52,8 +52,8 @@ $base-font-size: 1rem; // 16px
     opacity: 0.8;
   }
 
-  &__container {
-    max-width: breakpoint(xl);
+  &__container { 
+    max-width: calc(breakpoint(xl) + 10rem);
     margin: 0 auto;
     padding: 0 $spacing-sm;
     display: flex;
@@ -479,19 +479,7 @@ $base-font-size: 1rem; // 16px
   z-index: 999;
 }
 
-/* Variables CSS actualizadas */
-:root {
-  --color-primary: #001244;      
-  --color-secondary: #b9986c;     
-  --color-white: #ffffff;        
-  --color-light-gray: #f8f9fa;   
-  --color-dark: #1f2937;         
-  --color-accent: #3b82f6;
-  --color-primary-rgb: 0, 18, 68; /* RGB del color primario para transparencias */
-  --color-text: #1f2937; /* Usando color-dark para el texto */
-}
 
-// ===== ANIMACIONES =====
 @keyframes slideDown {
   from {
     transform: translateY(-20px);

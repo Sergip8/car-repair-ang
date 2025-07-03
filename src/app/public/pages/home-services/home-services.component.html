@@ -34,10 +34,10 @@
         <!-- Service Details -->
         <main class="service-details" *ngIf="selectedService">
           <div class="service-header">
-            <div class="service-icon-large">{{ selectedService?.icon }}</div>
+            <div class="service-icon-large">{{ selectedService.icon }}</div>
             <div class="service-info">
-              <h3 class="service-title">{{ selectedService?.title }}</h3>
-              <p class="service-description">{{ selectedService?.description }}</p>
+              <h3 class="service-title">{{ selectedService.title }}</h3>
+              <p class="service-description">{{ selectedService.description }}</p>
             </div>
           </div>
   
@@ -71,7 +71,7 @@
                 </div>
                 <div class="meta-content">
                   <span class="meta-label">Precio</span>
-                  <span class="meta-value">{{ selectedService?.price }}</span>
+                  <span class="meta-value">{{ selectedService.price }}</span>
                 </div>
               </div>
   
@@ -84,7 +84,7 @@
                 </div>
                 <div class="meta-content">
                   <span class="meta-label">Duración</span>
-                  <span class="meta-value">{{ selectedService?.duration }}</span>
+                  <span class="meta-value">{{ selectedService.duration }}</span>
                 </div>
               </div>
             </div>

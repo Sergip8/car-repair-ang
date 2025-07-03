@@ -7,6 +7,7 @@ import { CacheService } from './cache.service';
 import { handleError } from './handler/handle-error';
 import { environment } from '../../environments/environment';
 import { PaginationRequest, PaginationResponse } from '../../app/models/pagination';
+import { ApiRequest } from '../../app/models/api-request';
 
 const baseUrl = `${environment.apiUrl}/Customer`;
 
@@ -49,18 +50,18 @@ export class CustomerService {
       );
   }
 
-  createCustomer(customer: Customer): Observable<Customer> {
+  createCustomer(customer: Customer): Observable<ApiRequest<Customer>> {
     this.cacheService.clearCache(); // Invalidate cache on create
-    return this.http.post<Customer>(baseUrl, customer)
+    return this.http.post<ApiRequest<Customer>>(baseUrl, customer)
       .pipe(
         catchError(handleError)
       );
   }
 
-  updateCustomer(id: number, customer: Customer): Observable<Customer> {
+  updateCustomer(id: number, customer: Customer): Observable<ApiRequest<Customer>> {
     const url = `${baseUrl}/${id}`;
-    this.cacheService.clearCache(); // Invalidate cache on update
-    return this.http.put<Customer>(url, customer)
+    this.cacheService.clearCache();
+    return this.http.put<ApiRequest<Customer>>(url, customer)
       .pipe(
         catchError(handleError)
       );

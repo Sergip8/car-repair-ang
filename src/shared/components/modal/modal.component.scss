@@ -1,0 +1,273 @@
+// Variables
+$modal-z-index: 1000;
+$modal-backdrop-color: rgba(0, 0, 0, 0.5);
+$modal-border-radius: 12px;
+$modal-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+$modal-max-width-small: 400px;
+$modal-max-width-medium: 600px;
+$modal-max-width-large: 800px;
+$modal-padding: 1.5rem;
+$modal-header-height: 60px;
+
+// Mixins
+@mixin modal-size($max-width, $height: auto) {
+  max-width: $max-width;
+  width: 90%;
+  height: $height;
+  max-height: 90vh;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Modal overlay
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $modal-backdrop-color;
+  z-index: $modal-z-index;
+  overflow-y: auto;
+  backdrop-filter: blur(3px);
+  display: flex; 
+  justify-content: flex-end; 
+  align-items: stretch;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Modal container
+.modal {
+  position: relative;
+  background: white;
+  border-radius: $modal-border-radius;
+  box-shadow: $modal-shadow;
+  margin: 0.5rem auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  // Sizes
+  &--small {
+    @include modal-size($modal-max-width-small);
+  }
+  
+  &--medium {
+    @include modal-size($modal-max-width-medium);
+  }
+  
+  &--large {
+    @include modal-size($modal-max-width-large);
+  }
+  
+  &--fullscreen {
+    @include modal-size(95vw, 95vh);
+    margin: 2.5vh auto;
+  }
+  
+  // Positions
+  &--left {
+    margin-left: 2rem;
+    margin-right: auto;
+    
+    @media (max-width: 768px) {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+   &--right {
+    margin-right: 0.5rem;
+    margin-left: auto;
+    
+    @media (max-width: 768px) {
+      margin-right: 0;
+      margin-left: 1rem;
+    }
+  }
+  
+  &--center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  // Responsive
+  @media (max-width: 768px) {
+    width: 95%;
+    margin: 1rem auto;
+    border-radius: 8px;
+    
+    &--left {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+// Modal header
+.modal__header {
+  @include flex-between;
+  padding: $modal-padding;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  min-height: $modal-header-height;
+  flex-shrink: 0;
+}
+
+.modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.modal__close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+  
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Modal body
+.modal__body {
+  padding: $modal-padding;
+  flex-grow: 1;
+  overflow-y: auto;
+  
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #94a3b8;
+    }
+  }
+}
+
+// Modal footer
+.modal__footer {
+  padding: $modal-padding;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+  
+  @include flex-between;
+  gap: 0.75rem;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    
+    & > * {
+      width: 100%;
+    }
+  }
+}
+
+// Animation states
+.modal-overlay {
+  animation-fill-mode: both;
+}
+
+.modal {
+  animation-fill-mode: both;
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .modal__header {
+    background: #111827;
+    border-bottom-color: #374151;
+  }
+  
+  .modal__title {
+    color: #f9fafb;
+  }
+  
+  .modal__close-btn {
+    color: #9ca3af;
+    
+    &:hover {
+      background-color: #374151;
+      color: #f3f4f6;
+    }
+  }
+  
+  .modal__footer {
+    background: #111827;
+    border-top-color: #374151;
+  }
+  
+  .modal__body {
+    &::-webkit-scrollbar-track {
+      background: #374151;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #6b7280;
+      
+      &:hover {
+        background: #9ca3af;
+      }
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .modal {
+    border: 2px solid #000;
+  }
+  
+  .modal__close-btn {
+    border: 1px solid #000;
+  }
+}

@@ -67,7 +67,7 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
           console.log("Network error");
           break;
         case 400:
-          console.log("400 Bad Request. Server cannot process the request");
+          console.log("400 Bad Request. Server cannot process the request: " + err.message);
           break;
         case 401:
           router.navigateByUrl("unauthorized");
@@ -87,7 +87,7 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
           break;
       }
       //router.navigateByUrl("unauthorized");
-      return throwError(() => new Error('An error occurred. Please try again later.'));
+      return throwError(() => new Error('An error occurred. Please try again later. '));
     })
   );
 } 

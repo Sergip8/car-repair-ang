@@ -1,10 +1,11 @@
+// Variables adaptadas de tu diseño
 $color-primary: var(--color-primary); // Azul oscuro
 $color-secondary: var(--color-secondary); // Café claro/beige
 $color-white: var(--color-white); // Blanco
 $color-light-gray: var(--color-light-gray); // Gris claro
 $color-dark: var(--color-dark); // Gris oscuro para texto
 $color-accent: var(--color-accent); // Azul accent
-/* FAQ Section Styles */
+
 $border-radius: 12px;
 $transition-speed: 0.3s;
 $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -18,16 +19,15 @@ $box-shadow-hover: 0 8px 25px rgba(0, 18, 68, 0.15);
 }
 
 @mixin transition-all {
-  transition: all $transition-speed ease-in-out;
+  transition: all $transition-speed cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .faq-section {
   padding: 80px 0;
   background: rgba($color-primary, 0.30);
-
   position: relative;
-z-index: 10;
-
+  z-index: 10;
+  
   .container {
     max-width: 900px;
     margin: 0 auto;
@@ -87,14 +87,28 @@ z-index: 10;
   &:hover {
     box-shadow: $box-shadow-hover;
     border-color: rgba($color-secondary, 0.3);
+    transform: translateY(-2px);
   }
 
   &.active {
     border-color: $color-secondary;
+    box-shadow: $box-shadow-hover;
     
     .faq-question {
-        background: linear-gradient(135deg, $color-primary 0%, #000e33 100%);
+      background: linear-gradient(135deg, $color-primary 0%, #000e33 100%);
       color: $color-white;
+      
+      .question-text {
+        font-weight: 600;
+      }
+      
+      .toggle-icon {
+        background: rgba($color-secondary, 0.4);
+        
+        svg {
+          stroke: $color-white;
+        }
+      }
     }
   }
 }
@@ -118,9 +132,16 @@ z-index: 10;
     background: rgba($color-secondary, 0.1);
   }
 
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px $color-accent;
+  }
+
   .question-text {
     flex: 1;
     margin-right: 16px;
+    line-height: 1.4;
+    @include transition-all;
   }
 
   .toggle-icon {
@@ -131,35 +152,30 @@ z-index: 10;
     height: 32px;
     border-radius: 50%;
     background: rgba($color-secondary, 0.2);
+    flex-shrink: 0;
     @include transition-all;
 
     svg {
       @include transition-all;
+      stroke: $color-primary;
+      stroke-width: 2;
     }
 
-    &.rotated {
-      background: rgba($color-secondary, 0.4);
-      
-      svg {
-        transform: rotate(180deg);
-      }
+    &:hover {
+      background: rgba($color-secondary, 0.3);
+      transform: scale(1.05);
     }
   }
 }
 
 .faq-answer-wrapper {
-  max-height: 0;
   overflow: hidden;
+  background: rgba($color-secondary, 0.05);
   @include transition-all;
-
-  &.expanded {
-    max-height: 500px;
-  }
 }
 
 .faq-answer {
   padding: 0 28px 28px 28px;
-  background: rgba($color-secondary, 0.05);
 
   p {
     font-size: 1rem;
@@ -189,6 +205,9 @@ z-index: 10;
     opacity: 0.9;
     margin-bottom: 24px;
     line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .cta-button {
@@ -203,15 +222,29 @@ z-index: 10;
     font-weight: 600;
     cursor: pointer;
     @include transition-all;
+    box-shadow: 0 4px 15px rgba(210, 180, 140, 0.3);
 
     &:hover {
-      //background: lighten($color-secondary, 10%);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(210, 180, 140, 0.4);
+      box-shadow: 0 8px 25px rgba(210, 180, 140, 0.4);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(210, 180, 140, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
 
     svg {
       stroke-width: 2.5;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+      transform: scale(1.1);
     }
   }
 }
@@ -283,4 +316,18 @@ z-index: 10;
   .faq-answer {
     padding: 0 16px 16px 16px;
   }
+}
+
+// Animaciones adicionales para estados de carga
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.faq-item.loading {
+  animation: pulse 2s cubic-bezier(0.4, 0.0, 0.6, 1) infinite;
 }
